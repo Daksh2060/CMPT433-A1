@@ -4,6 +4,6 @@
 
 int main()
 {
-    setTrigger("none");
+    setTrigger("heartbeat");
     return 0;
 }

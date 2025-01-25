@@ -15,7 +15,7 @@
 
 /**
  * Sets the LED trigger mode.
- * @param trigger_mode The desired trigger mode ("none", "timer").
+ * @param trigger_mode The desired trigger mode ("none", "timer", "heartbeat").
  */
 void setTrigger(const char *trigger_mode);
 
