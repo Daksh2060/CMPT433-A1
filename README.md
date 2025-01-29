@@ -74,11 +74,8 @@ Note: This application is just to help you get started! It also has a bug in its
 To manually run CMake from the command line use:
 
 ```shell
-  # Regenerate build/ folder and makefiles:
-  rm -rf build/         # Wipes temporary build folder
-  cmake -S . -B build   # Generate makefiles in build\
-
-  # Build (compile & link) the project
+  rm -rf build/   
+  cmake -S . -B build  
   cmake --build build
 ```
 
