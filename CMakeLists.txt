@@ -1,45 +1,22 @@
-# CMake Build Configuration for Cross-Compilation
+# CMake Build Configuration for root of project
 cmake_minimum_required(VERSION 3.18)
-project(LEDControl VERSION 1.0 DESCRIPTION "LED Control Project" LANGUAGES C)
+project(my_hello_world VERSION 1.0 DESCRIPTION "Starter project" LANGUAGES C)
 
-# Cross-Compilation Toolchain Setup
-set(CMAKE_SYSTEM_NAME Linux)
-set(CMAKE_SYSTEM_PROCESSOR aarch64)
-set(TOOLCHAIN_PREFIX aarch64-linux-gnu)
-
-# Specify the cross compiler
-set(CMAKE_C_COMPILER ${TOOLCHAIN_PREFIX}-gcc)
-set(CMAKE_CXX_COMPILER ${TOOLCHAIN_PREFIX}-g++)
-
-# Compiler options
+# Compiler options (inherited by sub-folders)
 set(CMAKE_C_STANDARD 11)
-add_compile_options(
-    -Wall 
-    -Werror 
-    -Wpedantic 
-    -Wextra
-    -fdiagnostics-color
-)
+add_compile_options(-Wall -Werror -Wpedantic -Wextra)
+add_compile_options(-fdiagnostics-color)
 
-# Optional: Address Sanitizer (comment out for release)
-# add_compile_options(-fsanitize=address)
-# add_link_options(-fsanitize=address)
+# Enable address sanitizer
+# (Comment this out to make your code faster)
+add_compile_options(-fsanitize=address)
+add_link_options(-fsanitize=address)
 
-# PThread library
+# Enable PThread library for linking
 add_compile_options(-pthread)
 add_link_options(-pthread)
 
-# Output directory
-set(EXECUTABLE_OUTPUT_PATH "$ENV{HOME}/cmpt433/public")
-
-# Subdirectories (adjust as per your project structure)
-add_subdirectory(ledcontrol)
-add_subdirectory(src)
-
-
-
-
-
-
-
+# What folders to build
+add_subdirectory(hal)  
+add_subdirectory(app)
 
