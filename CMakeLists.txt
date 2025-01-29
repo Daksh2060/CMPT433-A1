@@ -6,6 +6,7 @@ project(a1 VERSION 1.0 DESCRIPTION "Starter project" LANGUAGES C)
 set(CMAKE_C_STANDARD 11)
 add_compile_options(-Wall -Werror -Wpedantic -Wextra)
 add_compile_options(-fdiagnostics-color)
+add_compile_options(-D_POSIX_C_SOURCE=200809L)
 
 # Enable address sanitizer
 # (Comment this out to make your code faster)

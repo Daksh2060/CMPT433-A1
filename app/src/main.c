@@ -7,6 +7,7 @@
 #include "hal/button.h"
 #include "hal/led.h"
 #include <unistd.h>
+#include <time.h>
 
 // void foo() {
 //     int data[3];    
@@ -58,15 +59,28 @@
 //     #endif
 // }
 
+static void sleepForMs(long long delayInMs)
+{
+    const long long NS_PER_MS = 1000 * 1000;
+    const long long NS_PER_SECOND = 1000000000;
+    long long delayNs = delayInMs * NS_PER_MS;
+    int seconds = delayNs / NS_PER_SECOND;
+    int nanoseconds = delayNs % NS_PER_SECOND;
+    struct timespec reqDelay = {seconds, nanoseconds};
+    nanosleep(&reqDelay, (struct timespec *) NULL);
+}
+
+
 int main(){
     printf("Hello there hehehe!\n");
 
     Led led;
     led_init(&led, "ACT");
     // led_init(&led, "PWR");
-    sleep(1);
+    sleepForMs(1000);
+    led_turn_on(&led);
+    sleepForMs(3000);
     led_turn_off(&led);
-    sleep(5);
     led_cleanup(&led);
 
     return 0;
