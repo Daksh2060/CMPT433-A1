@@ -63,8 +63,9 @@ int main(){
 
     Led led;
     led_init(&led, "ACT");
+    // led_init(&led, "PWR");
     sleep(1);
-    led_turn_on(&led);
+    led_turn_off(&led);
     sleep(5);
     led_cleanup(&led);
 

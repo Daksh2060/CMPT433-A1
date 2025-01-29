@@ -62,9 +62,6 @@ void led_cleanup(Led *led) {
     assert(led != NULL);
     assert(is_initialized);
 
-    // Turn off the LED before cleanup
-    led_turn_off(led);
-
     printf("LED cleaned up\n");
     is_initialized = false;
     led->is_initialized = false;
