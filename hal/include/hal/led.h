@@ -21,3 +21,9 @@ void led_turn_off(Led *led);
 void led_cleanup(Led *led);
 
 #endif
+
+
+
+// //The desired trigger mode ("none", "timer", "heartbeat").
+ 
+// void setTrigger(const char *trigger_mode);
