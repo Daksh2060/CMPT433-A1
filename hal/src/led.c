@@ -12,7 +12,6 @@ void led_init(Led *led, const char *name) {
     assert(!is_initialized);
 
     // Set flags to true so another LED cannot be initialized.
-    printf("LED initialized: %s\n", name);
     is_initialized = true;
     led->is_initialized = true;
 
@@ -36,7 +35,6 @@ void led_turn_on(Led *led) {
         exit(EXIT_FAILURE);
     }
 
-    printf("LED turned on\n");
     fclose(brightness);
 }
 
@@ -56,7 +54,6 @@ void led_turn_off(Led *led) {
         exit(EXIT_FAILURE);
     }
 
-    printf("LED turned off\n");
     fclose(brightness);
 }
 
@@ -65,7 +62,6 @@ void led_cleanup(Led *led) {
     assert(is_initialized);
 
     //Sets module and LED struct to uninitialized so new LED can be initialized
-    printf("LED cleaned up\n");
     is_initialized = false;
     led->is_initialized = false;
 }

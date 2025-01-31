@@ -2,7 +2,7 @@
 #include <time.h>
 #include <unistd.h>
 
-void sleepForMs(long long delayInMs)
+void sleep_for_ms(long long delayInMs)
 {
     const long long NS_PER_MS = 1000 * 1000;
     const long long NS_PER_SECOND = 1000000000;

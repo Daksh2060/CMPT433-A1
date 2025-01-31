@@ -13,7 +13,7 @@
  * 
  * @param delayInMs The delay duration in milliseconds.
  */
-void sleepForMs(long long delayInMs);
+void sleep_for_ms(long long delayInMs);
 
 /**
  * Checks if the joystick has been idle for a certain amount of time. Used to exit input reading.
