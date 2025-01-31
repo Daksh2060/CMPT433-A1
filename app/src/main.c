@@ -11,7 +11,6 @@ typedef enum {
     GREEN = 1
 } LedColor;
 
-// Static global variable for best reaction time
 static long long best_time = 0;
 
 void flash_led(LedColor colour, int flash_duration_ms, int repetitions) {   
@@ -104,6 +103,14 @@ int main() {
 
         int direction = rand() % 2;
         Led led;
+
+        int y = joystick_read_input(&joystick, JOYSTICK_Y);
+        if (y > 20 || y < -20) {
+            printf("Too soon!\n");
+            sleep_for_ms(1000);
+            continue;
+        }
+
         long long start_time = get_time_in_ms();
 
         if (direction == 1) {
@@ -129,6 +136,8 @@ int main() {
             if (reaction_time > 5000) {
                 printf("No input within 5000ms; quitting!\n");
                 joystick_cleanup(&joystick);
+                led_turn_off(&led);
+                led_cleanup(&led);
                 exit(0);
             }
 
@@ -140,3 +149,9 @@ int main() {
 
     return 0;
 }
+
+
+// Add exit for pressing left/right, including for too soon check
+// Figure out Please let go / To soon things
+// Make joystick auto calibrate? Add to joystick module? Auto calibrate function with min / max values?
+
