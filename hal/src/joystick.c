@@ -16,13 +16,21 @@
 #define REG_CONFIGURATION 0x01          // Register address for configuration.
 #define REG_DATA 0x00                   // Register address for data.
 
-#define TLA2024_CHANNEL_CONF_X 0x83C2   // Configuration value for X-axis reading.
-#define TLA2024_CHANNEL_CONF_Y 0x83D2   // Configuration value for Y-axis reading.
+#define TLA2024_CHANNEL_CONF_X 0x83D2   // Configuration value for X-axis reading.
+#define TLA2024_CHANNEL_CONF_Y 0x83C2   // Configuration value for Y-axis reading.
 
-//Flag to track if joystick module has been initialized.
+// Flag to track if joystick module has been initialized.
 static bool is_initialized = false;
 
-//Helper functions for I2C communication obtained from course I2C Guide.
+// Joystick scaling values
+static const int JOYSTICK_X_MIN = 1;
+static const int JOYSTICK_X_MAX = 1630;
+static const int JOYSTICK_Y_MIN = 34;
+static const int JOYSTICK_Y_MAX = 1645;
+static const int JOYSTICK_SCALE_RANGE = 200;
+static const int JOYSTICK_OFFSET = 100;  
+
+// Helper functions for I2C communication obtained from course I2C Guide.
 static int init_i2c_bus(char *bus, int address);
 static void write_i2c_reg16(int i2c_file_desc, uint8_t reg_addr, uint16_t value);
 static uint16_t read_i2c_reg16(int i2c_file_desc, uint8_t reg_addr);
@@ -62,15 +70,14 @@ int joystick_read_input(Joystick *joystick, JoystickDirection dir)
     uint16_t raw_read = read_i2c_reg16(joystick->i2c_file_desc, REG_DATA);
     uint16_t value = ((raw_read  & 0xFF) << 8) | ((raw_read  & 0xFF00) >> 8);
     value = value >> 4;
-
-    // Scales value to [-100, 100] based on observed min and max values for usability.
-    int min_x = 1, max_x = 1630;
-    int min_y = 34, max_y = 1645;
     
+    // Scales value to [-100, 100] based on observed min and max values for usability.
     if (dir == JOYSTICK_X) {
-        return ((value - min_x) * 200) / (max_x - min_x) - 100;
+        return ((value - JOYSTICK_X_MIN) * JOYSTICK_SCALE_RANGE) / 
+               (JOYSTICK_X_MAX - JOYSTICK_X_MIN) - JOYSTICK_OFFSET;
     } else {
-        return ((value - min_y) * 200) / (max_y - min_y) - 100;
+        return ((value - JOYSTICK_Y_MIN) * JOYSTICK_SCALE_RANGE) / 
+               (JOYSTICK_Y_MAX - JOYSTICK_Y_MIN) - JOYSTICK_OFFSET;
     }
 }
 

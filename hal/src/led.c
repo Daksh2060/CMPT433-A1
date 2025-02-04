@@ -65,29 +65,3 @@ void led_cleanup(Led *led) {
     is_initialized = false;
     led->is_initialized = false;
 }
-
-
-
-
-
-
-
-//For trigger control
-// void setTrigger(const char *trigger_mode) 
-// {
-//     FILE *trigger_file = fopen(LED_TRIGGER_FILE, "w");
-//     if (trigger_file == NULL) {
-//         perror("Error opening LED trigger file");
-//         exit(EXIT_FAILURE);
-//     }
-
-//     int chars_written = fprintf(trigger_file, "%s\n", trigger_mode);
-//     if (chars_written <= 0) {
-//         perror("Error writing to LED trigger file");
-//         exit(EXIT_FAILURE);
-//     }
-
-//     fclose(trigger_file);
-// }
-
-//// snprintf(led->trigger_file, sizeof(led->trigger_file), "/sys/class/leds/%s/trigger", name); under init

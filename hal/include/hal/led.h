@@ -51,13 +51,3 @@ void led_turn_off(Led *led);
 void led_cleanup(Led *led);
 
 #endif
-
-
-
-
-
-
-//For trigger control
-// //The desired trigger mode ("none", "timer", "heartbeat").
-// // char trigger_file[128]; under Led struct
-// void setTrigger(const char *trigger_mode);
