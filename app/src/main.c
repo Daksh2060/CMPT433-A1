@@ -51,20 +51,20 @@ void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions)
 }
 
 // Checks the input of the joystick for main gameplay loop, determines if it is correct or not.
-int handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led) 
+bool handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led) 
 {
     if (abs(joystick_y) > JOYSTICK_THRESHOLD) {
         led_turn_off(led);
         led_cleanup(led);
 
-        bool is_up_correct = (joystick_y > JOYSTICK_THRESHOLD && correct_direction == GREEN_UP);
-        bool is_down_correct = (joystick_y < -JOYSTICK_THRESHOLD && correct_direction == RED_DOWN);
+        bool is_up_correct = ((joystick_y > JOYSTICK_THRESHOLD) && (correct_direction == GREEN_UP));
+        bool is_down_correct = ((joystick_y < -JOYSTICK_THRESHOLD) && (correct_direction == RED_DOWN));
 
         if (is_up_correct || is_down_correct) {
             printf("Correct!\n");
             flash_led(GREEN_UP, 200, 5);
             
-            if (best_time_ms == 0 || reaction_time_ms < best_time_ms) {
+            if ((best_time_ms == 0) || (reaction_time_ms < best_time_ms)) {
                 best_time_ms = reaction_time_ms;
                 printf("New best time!\n");
                 sleep_for_ms(250);
@@ -75,9 +75,9 @@ int handle_response(int joystick_y, ColorDirecton correct_direction, long long r
             printf("Incorrect!\n");
             flash_led(RED_DOWN, 200, 5);
         }
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 // Used to cleanup structs, print corresponding exit message, then exit the program.
@@ -122,7 +122,7 @@ int main()
             int joystick_x = joystick_read_input(&joystick, JOYSTICK_X);
 
             // If the user is pushing left/right more than up/down, it is considered a left/right push
-            if (abs(joystick_x) > abs(joystick_y) && abs(joystick_x) > JOYSTICK_THRESHOLD) {
+            if ((abs(joystick_x) > abs(joystick_y)) && (abs(joystick_x) > JOYSTICK_THRESHOLD)) {
                 cleanup_and_exit(&joystick, NULL, 0, true);
             }
 
@@ -149,7 +149,7 @@ int main()
         int joystick_x = joystick_read_input(&joystick, JOYSTICK_X);
 
         // Checks if user pressed the joystick before the LED turns on
-        if (abs(joystick_x) > abs(joystick_y) && abs(joystick_x) > JOYSTICK_THRESHOLD) {
+        if ((abs(joystick_x) > abs(joystick_y)) && (abs(joystick_x) > JOYSTICK_THRESHOLD)) {
             cleanup_and_exit(&joystick, NULL, 0, true);
         }
 
@@ -171,13 +171,13 @@ int main()
             led_turn_on(&led);
         }
 
-        // Waits for user input after LED turns on, checks for exit, then correct input.
-        int input_received = 0;
+        // Waits for user input after LED turns on, checks for exit, then for correct input.
+        bool input_received = false;
         while (!input_received) {
             joystick_y = joystick_read_input(&joystick, JOYSTICK_Y);
             joystick_x = joystick_read_input(&joystick, JOYSTICK_X);
 
-            if (abs(joystick_x) > abs(joystick_y) && abs(joystick_x) > JOYSTICK_THRESHOLD) {
+            if ((abs(joystick_x) > abs(joystick_y)) && (abs(joystick_x) > JOYSTICK_THRESHOLD)) {
                 cleanup_and_exit(&joystick, &led, 0, true);
             }
 
