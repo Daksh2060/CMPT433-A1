@@ -1,3 +1,7 @@
+/*
+ * This file implements the LED module for the BeagleBone.
+ */
+
 #include "hal/led.h"
 #include <stdio.h>
 #include <stdbool.h>
@@ -6,7 +10,8 @@
 // Ensures only one LED is initialized at a time
 static bool is_initialized = false;
 
-void led_init(Led *led, const char *name) {
+void led_init(Led *led, const char *name) 
+{
     assert(led != NULL);
     assert(name != NULL);
     assert(!is_initialized);
@@ -19,7 +24,8 @@ void led_init(Led *led, const char *name) {
     snprintf(led->brightness_file, sizeof(led->brightness_file), "/sys/class/leds/%s/brightness", name);
 }
 
-void led_turn_on(Led *led) {
+void led_turn_on(Led *led) 
+{
     assert(led != NULL);
     assert(is_initialized);
 
@@ -34,11 +40,11 @@ void led_turn_on(Led *led) {
         perror("Error writing to LED brightness file");
         exit(EXIT_FAILURE);
     }
-
     fclose(brightness);
 }
 
-void led_turn_off(Led *led) {
+void led_turn_off(Led *led) 
+{
     assert(led != NULL);
     assert(is_initialized);
 
@@ -53,11 +59,11 @@ void led_turn_off(Led *led) {
         perror("Error writing to LED brightness file");
         exit(EXIT_FAILURE);
     }
-
     fclose(brightness);
 }
 
-void led_cleanup(Led *led) {
+void led_cleanup(Led *led) 
+{
     assert(led != NULL);
     assert(is_initialized);
 

@@ -11,9 +11,10 @@
 /**
  * Pauses the program for a number of milliseconds, obtained from course LED Guide.
  * 
- * @param delayInMs The delay duration in milliseconds.
+ * @param delay_in_ms The delay duration in milliseconds.
  */
-void sleep_for_ms(long long delayInMs);
+void sleep_for_ms(long long delay_in_ms);
+
 
 /**
  * Checks if the joystick has been idle for a certain amount of time. Used to exit input reading.
@@ -23,5 +24,13 @@ void sleep_for_ms(long long delayInMs);
  * @return True if the timeout limit has passed, otherwise false.
  */
 bool has_timeout_passed(time_t start_time, int timeout_seconds);
+
+
+/**
+ * Gets the current time in milliseconds, taken from ADC Guide from course site.
+ * 
+ * @return The time in milliseconds elapsed from January 1st 1970. 
+ */
+static long long get_time_in_ms(void); 
 
 #endif

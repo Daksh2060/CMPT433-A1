@@ -1,3 +1,7 @@
+/*
+ * This file implements the joystick module for the BeagleBone.
+ */
+
 #include "hal/joystick.h"
 #include <stdio.h>
 #include <stdlib.h>
@@ -46,7 +50,6 @@ void joystick_init(Joystick *joystick)
         perror("Failed to initialize I2C");
         exit(EXIT_FAILURE);
     }
-    
     joystick->is_initialized = true;
     is_initialized = true;
 }

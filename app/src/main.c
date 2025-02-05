@@ -1,9 +1,11 @@
 /**
- * Reaction Time Game
+ * CMPT433 Assignment 1 - Reaction Timer Game
+ * Daksh Patel 301430433
  * 
- * A game that tests user reaction time by having them respond to LED prompts
- * using a joystick. Users must push the joystick up or down when the corresponding
- * LED lights up. The game tracks and displays the best reaction time achieved.
+ * A game that tests user reaction time by having them respond to directional prompts
+ * using a joystick. Players push the joystick up or down when the corresponding
+ * LED lights up. The game tracks and displays the best reaction time achieved. The game
+ * can be exited by pressing left or right.
  */
 
 #include <stdio.h>
@@ -14,12 +16,13 @@
 #include "hal/button.h"
 #include "utils.h"
 
-// Most frequently used/important constants
+// Constants for joystick and led usage
 static const char* const LED_GREEN_NAME = "ACT";
 static const char* const LED_RED_NAME = "PWR";
-static const int JOYSTICK_THRESHOLD = 25;    // Used for detecting joystick movement
-static const int REACTION_TIMEOUT_MS = 5000; // Max time to wait for response
+static const int JOYSTICK_THRESHOLD = 25;    
+static const int REACTION_TIMEOUT_MS = 5000;
 
+// ENUM for the up/green and down/red pairings, used interchangeably.
 typedef enum {
     RED_DOWN = 0,
     GREEN_UP = 1
@@ -27,7 +30,9 @@ typedef enum {
 
 static long long best_time_ms = 0;
 
-void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions) {   
+// Used to flash the green/red LED, duration denotes the flash on and off time.
+void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions) 
+{   
     Led led;
     if (colour == GREEN_UP) {
         led_init(&led, LED_GREEN_NAME);
@@ -45,23 +50,9 @@ void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions) {
     led_cleanup(&led);
 }
 
-void cleanup_and_exit(Joystick *joystick, Led *led, int exit_code, bool is_lateral_movement) {
-    if (led) {
-        led_turn_off(led);
-        led_cleanup(led);
-    }
-    
-    joystick_cleanup(joystick);
-
-    if (is_lateral_movement) {
-        printf("Joystick pushed left or right; exiting game.\n");
-    } else {
-        printf("No input within 5000ms; quitting!\n");
-    }
-    exit(exit_code);
-}
-
-int handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led) {
+// Checks the input of the joystick for main gameplay loop, determines if it is correct or not.
+int handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led) 
+{
     if (abs(joystick_y) > JOYSTICK_THRESHOLD) {
         led_turn_off(led);
         led_cleanup(led);
@@ -89,16 +80,25 @@ int handle_response(int joystick_y, ColorDirecton correct_direction, long long r
     return 0;
 }
 
-static long long get_time_in_ms(void) {
-    struct timespec spec;
-    clock_gettime(CLOCK_REALTIME, &spec);
-    long long seconds = spec.tv_sec;
-    long long nanoSeconds = spec.tv_nsec;
-    long long milliSeconds = seconds * 1000 + nanoSeconds / 1000000;
-    return milliSeconds;
+// Used to cleanup structs, print corresponding exit message, then exit the program.
+void cleanup_and_exit(Joystick *joystick, Led *led, int exit_code, bool is_lateral_movement) 
+{
+    if (led) {
+        led_turn_off(led);
+        led_cleanup(led);
+    }
+    joystick_cleanup(joystick);
+
+    if (is_lateral_movement) {
+        printf("Joystick pushed left or right; exiting game.\n");
+    } else {
+        printf("No input within 5000ms; quitting!\n");
+    }
+    exit(exit_code);
 }
 
-int main() {
+int main() 
+{
     srand(time(NULL));
     Joystick joystick;
     joystick_init(&joystick);
@@ -115,11 +115,13 @@ int main() {
             flash_led(RED_DOWN, 250, 1);
         }
 
+        // Checks if the user is pressing the joystick before the random timer starts.
         bool warning_printed = false;
         while (1) {
             int joystick_y = joystick_read_input(&joystick, JOYSTICK_Y);
             int joystick_x = joystick_read_input(&joystick, JOYSTICK_X);
 
+            // If the user is pushing left/right more than up/down, it is considered a left/right push
             if (abs(joystick_x) > abs(joystick_y) && abs(joystick_x) > JOYSTICK_THRESHOLD) {
                 cleanup_and_exit(&joystick, NULL, 0, true);
             }
@@ -136,6 +138,7 @@ int main() {
             sleep_for_ms(1000);
         }
 
+        // Selects a random number between 0.5 and 3
         float random_delay = 0.5 + (float)rand() / RAND_MAX * (3.0 - 0.5);
         sleep_for_ms(random_delay * 1000);  
 
@@ -145,6 +148,7 @@ int main() {
         int joystick_y = joystick_read_input(&joystick, JOYSTICK_Y);
         int joystick_x = joystick_read_input(&joystick, JOYSTICK_X);
 
+        // Checks if user pressed the joystick before the LED turns on
         if (abs(joystick_x) > abs(joystick_y) && abs(joystick_x) > JOYSTICK_THRESHOLD) {
             cleanup_and_exit(&joystick, NULL, 0, true);
         }
@@ -167,6 +171,7 @@ int main() {
             led_turn_on(&led);
         }
 
+        // Waits for user input after LED turns on, checks for exit, then correct input.
         int input_received = 0;
         while (!input_received) {
             joystick_y = joystick_read_input(&joystick, JOYSTICK_Y);
