@@ -23,7 +23,7 @@ bool has_timeout_passed(time_t start_time, int timeout_seconds)
     return difftime(current_time, start_time) >= timeout_seconds;
 }
 
-static long long get_time_in_ms(void) 
+long long get_time_in_ms(void) 
 {
     struct timespec spec;
     clock_gettime(CLOCK_REALTIME, &spec);

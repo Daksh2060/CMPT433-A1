@@ -28,6 +28,7 @@ void led_turn_on(Led *led)
 {
     assert(led != NULL);
     assert(is_initialized);
+    assert(led->is_initialized);
 
     FILE *brightness = fopen(led->brightness_file, "w");
     if (brightness == NULL) {
@@ -47,6 +48,7 @@ void led_turn_off(Led *led)
 {
     assert(led != NULL);
     assert(is_initialized);
+    assert(led->is_initialized);
 
     FILE *brightness = fopen(led->brightness_file, "w");
     if (brightness == NULL) {
@@ -66,6 +68,7 @@ void led_cleanup(Led *led)
 {
     assert(led != NULL);
     assert(is_initialized);
+    assert(led->is_initialized);
 
     //Sets module and LED struct to uninitialized so new LED can be initialized
     is_initialized = false;

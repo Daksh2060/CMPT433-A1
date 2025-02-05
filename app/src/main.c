@@ -30,72 +30,15 @@ typedef enum {
 
 static long long best_time_ms = 0;
 
-// Used to flash the green/red LED, duration denotes the flash on and off time.
-void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions) 
-{   
-    Led led;
-    if (colour == GREEN_UP) {
-        led_init(&led, LED_GREEN_NAME);
-    } else {
-        led_init(&led, LED_RED_NAME);
-    }
-
-    for(int i = 0; i < repetitions; i++) {
-        led_turn_on(&led);
-        sleep_for_ms(flash_duration_ms);
-        led_turn_off(&led);
-        sleep_for_ms(flash_duration_ms);
-    }
-
-    led_cleanup(&led);
-}
+// Used to cleanup structs, print corresponding exit message, then exit the program.
+static void cleanup_and_exit(Joystick *joystick, Led *led, int exit_code, bool is_lateral_movement); 
 
 // Checks the input of the joystick for main gameplay loop, determines if it is correct or not.
-bool handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led) 
-{
-    if (abs(joystick_y) > JOYSTICK_THRESHOLD) {
-        led_turn_off(led);
-        led_cleanup(led);
+static bool handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led); 
 
-        bool is_up_correct = ((joystick_y > JOYSTICK_THRESHOLD) && (correct_direction == GREEN_UP));
-        bool is_down_correct = ((joystick_y < -JOYSTICK_THRESHOLD) && (correct_direction == RED_DOWN));
+// Used to flash the green/red LED, duration denotes the flash on and off time.
+static void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions);
 
-        if (is_up_correct || is_down_correct) {
-            printf("Correct!\n");
-            flash_led(GREEN_UP, 200, 5);
-            
-            if ((best_time_ms == 0) || (reaction_time_ms < best_time_ms)) {
-                best_time_ms = reaction_time_ms;
-                printf("New best time!\n");
-                sleep_for_ms(250);
-            }
-            printf("Your reaction time was %lld ms; ", reaction_time_ms);
-            printf("best so far in game is %lld ms.\n", best_time_ms);
-        } else {
-            printf("Incorrect!\n");
-            flash_led(RED_DOWN, 200, 5);
-        }
-        return true;
-    }
-    return false;
-}
-
-// Used to cleanup structs, print corresponding exit message, then exit the program.
-void cleanup_and_exit(Joystick *joystick, Led *led, int exit_code, bool is_lateral_movement) 
-{
-    if (led) {
-        led_turn_off(led);
-        led_cleanup(led);
-    }
-    joystick_cleanup(joystick);
-
-    if (is_lateral_movement) {
-        printf("Joystick pushed left or right; exiting game.\n");
-    } else {
-        printf("No input within 5000ms; quitting!\n");
-    }
-    exit(exit_code);
-}
 
 int main() 
 {
@@ -192,6 +135,68 @@ int main()
         }
         sleep_for_ms(1000);
     }
-
     return 0;
+}
+
+static void flash_led(ColorDirecton colour, int flash_duration_ms, int repetitions) 
+{   
+    Led led;
+    if (colour == GREEN_UP) {
+        led_init(&led, LED_GREEN_NAME);
+    } else {
+        led_init(&led, LED_RED_NAME);
+    }
+
+    for(int i = 0; i < repetitions; i++) {
+        led_turn_on(&led);
+        sleep_for_ms(flash_duration_ms);
+        led_turn_off(&led);
+        sleep_for_ms(flash_duration_ms);
+    }
+    led_cleanup(&led);
+}
+
+static bool handle_response(int joystick_y, ColorDirecton correct_direction, long long reaction_time_ms, Led *led) 
+{
+    if (abs(joystick_y) > JOYSTICK_THRESHOLD) {
+        led_turn_off(led);
+        led_cleanup(led);
+
+        bool is_up_correct = ((joystick_y > JOYSTICK_THRESHOLD) && (correct_direction == GREEN_UP));
+        bool is_down_correct = ((joystick_y < -JOYSTICK_THRESHOLD) && (correct_direction == RED_DOWN));
+
+        if (is_up_correct || is_down_correct) {
+            printf("Correct!\n");
+            flash_led(GREEN_UP, 200, 5);
+            
+            if ((best_time_ms == 0) || (reaction_time_ms < best_time_ms)) {
+                best_time_ms = reaction_time_ms;
+                printf("New best time!\n");
+                sleep_for_ms(250);
+            }
+            printf("Your reaction time was %lld ms; ", reaction_time_ms);
+            printf("best so far in game is %lld ms.\n", best_time_ms);
+        } else {
+            printf("Incorrect!\n");
+            flash_led(RED_DOWN, 200, 5);
+        }
+        return true;
+    }
+    return false;
+}
+
+static void cleanup_and_exit(Joystick *joystick, Led *led, int exit_code, bool is_lateral_movement) 
+{
+    if (led) {
+        led_turn_off(led);
+        led_cleanup(led);
+    }
+    joystick_cleanup(joystick);
+
+    if (is_lateral_movement) {
+        printf("Joystick pushed left or right; exiting game.\n");
+    } else {
+        printf("No input within 5000ms; quitting!\n");
+    }
+    exit(exit_code);
 }

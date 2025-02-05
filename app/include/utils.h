@@ -31,6 +31,6 @@ bool has_timeout_passed(time_t start_time, int timeout_seconds);
  * 
  * @return The time in milliseconds elapsed from January 1st 1970. 
  */
-static long long get_time_in_ms(void); 
+long long get_time_in_ms(void); 
 
 #endif
