@@ -17,8 +17,7 @@ add_compile_options(-D_POSIX_C_SOURCE=200809L)
 add_compile_options(-pthread)
 add_link_options(-pthread)
 
-# What folders to build
-add_subdirectory(common)  # Add the common directory here
+add_subdirectory(common)
 add_subdirectory(hal)  
 add_subdirectory(app)
 
