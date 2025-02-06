@@ -10,8 +10,8 @@ add_compile_options(-D_POSIX_C_SOURCE=200809L)
 
 # Enable address sanitizer
 # (Comment this out to make your code faster)
-add_compile_options(-fsanitize=address)
-add_link_options(-fsanitize=address)
+# add_compile_options(-fsanitize=address)
+# add_link_options(-fsanitize=address)
 
 # Enable PThread library for linking
 add_compile_options(-pthread)

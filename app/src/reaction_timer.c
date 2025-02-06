@@ -39,7 +39,7 @@ bool handle_response(int joystick_y, ColorDirection correct_direction, long long
 
         if (is_up_correct || is_down_correct) {
             printf("Correct!\n");
-            flash_led(GREEN_UP, 200, 5);
+            flash_led(GREEN_UP, 100, 5);
             
             if ((best_time_ms == 0) || (reaction_time_ms < best_time_ms)) {
                 best_time_ms = reaction_time_ms;
@@ -50,7 +50,7 @@ bool handle_response(int joystick_y, ColorDirection correct_direction, long long
             printf("best so far in game is %lld ms.\n", best_time_ms);
         } else {
             printf("Incorrect!\n");
-            flash_led(RED_DOWN, 200, 5);
+            flash_led(RED_DOWN, 100, 5);
         }
         return true;
     }
