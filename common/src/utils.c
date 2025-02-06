@@ -3,7 +3,6 @@
  */
 
 #include "utils.h"
-#include <time.h>
 #include <unistd.h>
 
 void sleep_for_ms(long long delay_in_ms)

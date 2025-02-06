@@ -2,7 +2,8 @@
  * This file implements the joystick module for the BeagleBone.
  */
 
-#include "hal/joystick.h"
+#include "joystick.h"
+#include "utils.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -10,8 +11,6 @@
 #include <sys/ioctl.h>
 #include <linux/i2c.h>
 #include <linux/i2c-dev.h>
-#include <stdint.h>
-#include <stdbool.h>
 #include <assert.h>
 
 #define I2CDRV_LINUX_BUS "/dev/i2c-1"   // The I2C bus to communicate with the joystick.
@@ -26,11 +25,11 @@
 // Flag to track if joystick module has been initialized.
 static bool is_initialized = false;
 
-// Joystick scaling values
+// // Joystick scaling values
 static const int JOYSTICK_X_MIN = 1;
 static const int JOYSTICK_X_MAX = 1630;
-static const int JOYSTICK_Y_MIN = 34;
-static const int JOYSTICK_Y_MAX = 1645;
+static const int JOYSTICK_Y_MIN = 23;
+static const int JOYSTICK_Y_MAX = 1647;
 static const int JOYSTICK_SCALE_RANGE = 200;
 static const int JOYSTICK_OFFSET = 100;  
 
@@ -68,6 +67,7 @@ int joystick_read_input(Joystick *joystick, JoystickDirection dir)
         config = TLA2024_CHANNEL_CONF_Y;
     }
     write_i2c_reg16(joystick->i2c_file_desc, REG_CONFIGURATION, config);
+    sleep_for_ms(5);
 
     // Read the raw value from the joystick, obtained from tla2024_demo.c
     uint16_t raw_read = read_i2c_reg16(joystick->i2c_file_desc, REG_DATA);

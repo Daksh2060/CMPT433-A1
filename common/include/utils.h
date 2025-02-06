@@ -1,9 +1,9 @@
 /*
- * This module contains utility functions used in the applications of assignments.
+ * This module contains utility functions used in both the HAL and applications.
  */
 
-#ifndef UTILS_H
-#define UTILS_H
+#ifndef APP_UTILS_H
+#define APP_UTILS_H
 
 #include <stdbool.h>
 #include <time.h>

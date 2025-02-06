@@ -2,6 +2,10 @@
     "C_Cpp.codeAnalysis.clangTidy.enabled": true,
     "files.associations": {
         "limits": "c",
-        "utils.h": "c"
+        "utils.h": "c",
+        "i2c-dev.h": "c",
+        "reaction_timer.h": "c",
+        "joystick.h": "c",
+        "stdio.h": "c"
     }
 }

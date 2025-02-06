@@ -2,9 +2,7 @@
  * This file implements the LED module for the BeagleBone.
  */
 
-#include "hal/led.h"
-#include <stdio.h>
-#include <stdbool.h>
+#include "led.h"
 #include <assert.h>
 
 // Ensures only one LED is initialized at a time

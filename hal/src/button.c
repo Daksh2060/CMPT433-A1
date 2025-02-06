@@ -1,4 +1,4 @@
-#include "hal/button.h"
+#include "button.h"
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
