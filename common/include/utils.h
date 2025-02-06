@@ -2,8 +2,8 @@
  * This module contains utility functions used in both the HAL and applications.
  */
 
-#ifndef APP_UTILS_H
-#define APP_UTILS_H
+#ifndef _UTILS_H
+#define _UTILS_H
 
 #include <stdbool.h>
 #include <time.h>

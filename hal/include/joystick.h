@@ -4,24 +4,19 @@
  * both directions to make it easier to work with.
  */
 
-#ifndef JOYSTICK_H
-#define JOYSTICK_H
+#ifndef _JOYSTICK_H
+#define _JOYSTICK_H
 
 #include <stdint.h>
 #include <stdbool.h>
 
-/**
- * Enum representing the joystick directions.
- */
+// Enum representing the joystick directions.
 typedef enum {
     JOYSTICK_X, // Joystick input along the X-axis.
     JOYSTICK_Y  // Joystick input along the Y-axis.
 } JoystickDirection;
 
-
-/**
- * Struct of a joystick.
- */
+// Struct of a joystick.
 typedef struct {
     int i2c_file_desc;   // I2C file descriptor for the joystick.
     bool is_initialized; // Flag to track if the joystick has been initialized

@@ -4,19 +4,19 @@
  * The module tracks and displays the best reaction time achieved.
  */
 
-#ifndef REACTION_TIMER_H
-#define REACTION_TIMER_H
+#ifndef _REACTION_TIMER_H
+#define _REACTION_TIMER_H
 
 #include "joystick.h"
 #include "led.h"
 #include "utils.h"
 #include <stdbool.h>
 
-// Constants for joystick and LED usage
-extern const char* const LED_GREEN_NAME;   // Name of the green LED ("ACT").
-extern const char* const LED_RED_NAME;     // Name of the red LED ("PWR").
-extern const int JOYSTICK_THRESHOLD;       // Threshold for joystick movement detection.
-extern const int REACTION_TIMEOUT_MS;      // Timeout duration for reaction (in milliseconds).
+// Joystick and LED usage
+#define LED_GREEN_NAME "ACT"        // Name of the green LED ("ACT").
+#define LED_RED_NAME "PWR"          // Name of the red LED ("PWR").
+#define JOYSTICK_THRESHOLD 25       // Threshold for joystick movement detection.
+#define REACTION_TIMEOUT_MS 5000    // Timeout duration for reaction (in milliseconds).
 
 // Enum for the up/green and down/red pairings, used interchangeably.
 typedef enum {
@@ -25,13 +25,14 @@ typedef enum {
 } ColorDirection;
 
 /**
- * Cleans up and exits the game, printing an appropriate exit message.
+ * Flashes the LED in the specified color for a given duration and number of repetitions.
  * 
- * @param joystick Pointer to the Joystick struct to clean up.
- * @param led Pointer to the Led struct to clean up (if needed).
- * @param is_lateral_movement Flag indicating if the user exited with lateral movement.
+ * @param colour The color of the LED to flash.
+ * @param flash_duration_ms Duration in milliseconds for each flash (before and after).
+ * @param repetitions Number of flashes.
  */
-void cleanup_and_exit(Joystick *joystick, Led *led, bool is_lateral_movement);
+void flash_led(ColorDirection colour, int flash_duration_ms, int repetitions);
+
 
 /**
  * Handles the player's response to the LED prompt, checking the direction 
@@ -45,13 +46,14 @@ void cleanup_and_exit(Joystick *joystick, Led *led, bool is_lateral_movement);
  */
 bool handle_response(int joystick_y, ColorDirection correct_direction, long long reaction_time_ms, Led *led);
 
+
 /**
- * Flashes the LED in the specified color for a given duration and number of repetitions.
+ * Cleans up and exits the game, printing an appropriate exit message.
  * 
- * @param colour The color of the LED to flash.
- * @param flash_duration_ms Duration in milliseconds for each flash (before and after).
- * @param repetitions Number of flashes.
+ * @param joystick Pointer to the Joystick struct to clean up.
+ * @param led Pointer to the Led struct to clean up (if needed).
+ * @param is_lateral_movement Flag indicating if the user exited with lateral movement.
  */
-void flash_led(ColorDirection colour, int flash_duration_ms, int repetitions);
+void cleanup_and_exit(Joystick *joystick, Led *led, bool is_lateral_movement);
 
 #endif

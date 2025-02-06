@@ -3,8 +3,8 @@
  * and only one LED can be controlled at a time. 
  */
 
-#ifndef LED_CONTROL_H
-#define LED_CONTROL_H
+#ifndef _LED_CONTROL_H
+#define _LED_CONTROL_H
 
 #include <stdio.h>
 #include <stdlib.h>

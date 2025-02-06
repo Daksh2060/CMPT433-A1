@@ -1,14 +1,15 @@
-// /**
-//  * CMPT433 Assignment 1 - Reaction Timer Game
-//  * Daksh Patel 301430433
-//  * 
-//  * A game that tests user reaction time by having them respond to directional prompts
-//  * using a joystick. Players push the joystick up or down when the corresponding
-//  * LED lights up. The game tracks and displays the best reaction time achieved. The game
-//  * can be exited by pressing left or right.
-//  */
+/**
+ * CMPT433 Assignment 1 - Reaction Timer Game
+ * Daksh Patel 301430433
+ * 
+ * A game that tests user reaction time by having them respond to directional prompts
+ * using a joystick. Players push the joystick up or down when the corresponding
+ * LED lights up. The game tracks and displays the best reaction time achieved. The game
+ * can be exited by pressing left or right.
+ */
 
 #include "reaction_timer.h"
+
 
 int main() 
 {

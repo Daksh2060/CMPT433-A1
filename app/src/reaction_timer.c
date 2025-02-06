@@ -7,12 +7,6 @@
 #include <stdlib.h>
 #include <time.h>
 
-// Constants for joystick and led usage
-const char* const LED_GREEN_NAME = "ACT";
-const char* const LED_RED_NAME = "PWR";
-const int JOYSTICK_THRESHOLD = 25;    
-const int REACTION_TIMEOUT_MS = 5000;
-
 // Variable to track the best reaction time.
 static long long best_time_ms = 0;
 
